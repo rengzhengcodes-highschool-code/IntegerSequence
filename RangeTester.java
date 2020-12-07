@@ -84,6 +84,30 @@ public class RangeTester {
 		return fail;
 	}
 
+	public static boolean lengthTester(int tests) {
+		tester("lengthTester");
+		boolean fail = false;
+		for (int test = 0; test < tests; test++) {
+			int start = randInt(-100, 100);
+			int end = start + randInt(10);
+			Range r = new Range(start, end);
+			ArrayList<Integer> equivalent = new ArrayList<Integer>();
+
+			for (int n = start; n <= end; n++) {
+				equivalent.add(n);
+			}
+
+			if (equivalent.size() == r.length()) {
+				passMessage(test);
+			} else {
+				System.out.println();
+			}
+		}
+
+		methodMessage("lengthTester", fail);
+		return fail;
+	}
+
 	public static boolean hasNextTester(int tests) {
 		tester("hasNextTester");
 		boolean fail = false;
@@ -100,31 +124,17 @@ public class RangeTester {
 			int current = start;
 
 			for (int n : equivalent) {
-				if (n != equivalent.get(equivalent.size() - 1)) {
-					if (r.hasNext()) {
-						current = r.next();
-						/* passMessage(test);
-						System.out.println("Start: " + start);
-						System.out.println("End: " + end);
-						System.out.println("Current: " + current); */
-					} else {
-						fail = true;
-						System.out.println("Start: " + start);
-						System.out.println("End: " + end);
-						System.out.println("Current: " + current);
-					}
+				if (r.hasNext()) {
+					current = r.next();
+					/* passMessage(test);
+					System.out.println("Start: " + start);
+					System.out.println("End: " + end);
+					System.out.println("Current: " + current); */
 				} else {
-					if (!r.hasNext()) {
-						/* passMessage(test);
-						System.out.println("Start: " + start);
-						System.out.println("End: " + end);
-						System.out.println("Current: " + current); */
-					} else {
-						fail = true;
-						System.out.println("Start: " + start);
-						System.out.println("End: " + end);
-						System.out.println("Current: " + current);
-					}
+					fail = true;
+					System.out.println("Start: " + start);
+					System.out.println("End: " + end);
+					System.out.println("Current: " + current);
 				}
 			}
 		}
@@ -142,7 +152,7 @@ public class RangeTester {
 			Range r = new Range(start, end);
 			ArrayList<Integer> equivalent = new ArrayList<Integer>();
 
-			for (int n = start; n <= end; n++) {
+			for (int n = start; n <= end + 1; n++) {
 				equivalent.add(n);
 			}
 
