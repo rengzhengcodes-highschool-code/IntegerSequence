@@ -96,12 +96,16 @@ public class RangeTester {
 				equivalent.add(n);
 			}
 
+			int current = start;
+
 			for (int n : equivalent) {
-				int current = n;
 				if (n != equivalent.get(equivalent.size() - 1)) {
 					if (r.hasNext()) {
 						current = r.next();
-						//passMessage(test);
+						/* passMessage(test);
+						System.out.println("Start: " + start);
+						System.out.println("End: " + end);
+						System.out.println("Current: " + current); */
 					} else {
 						fail = true;
 						System.out.println("Start: " + start);
@@ -110,7 +114,10 @@ public class RangeTester {
 					}
 				} else {
 					if (!r.hasNext()) {
-						//passMessage(test);
+						/* passMessage(test);
+						System.out.println("Start: " + start);
+						System.out.println("End: " + end);
+						System.out.println("Current: " + current); */
 					} else {
 						fail = true;
 						System.out.println("Start: " + start);
