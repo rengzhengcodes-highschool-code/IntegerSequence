@@ -5,6 +5,7 @@ public class RangeTester {
 		boolean failure = false;
 		failure = failure || constructorTester(1000);
 		failure = failure || hasNextTester(1000);
+		failure = failure || nextTester(1000);
 
 		System.out.println("\n ~~~ Overall Result ~~~");
 		if (failure) {
@@ -127,7 +128,49 @@ public class RangeTester {
 				}
 			}
 		}
+
 		methodMessage("hasNextTester", fail);
+		return fail;
+	}
+
+	public static boolean nextTester(int tests) {
+		tester("nextTester");
+		boolean fail = false;
+		for (int test = 0; test < tests; test++) {
+			int start = randInt(-100, 100);
+			int end = start + randInt(10);
+			Range r = new Range(start, end);
+			ArrayList<Integer> equivalent = new ArrayList<Integer>();
+
+			for (int n = start; n <= end; n++) {
+				equivalent.add(n);
+			}
+
+			int current = start;
+
+			for (int n : equivalent) {
+				if (n != equivalent.get(0)) {//passes first element for future checks to work
+					if (current == n - 1) {
+						//passMessage(test);
+						//System.out.println("Current: " + current);
+					} else {
+						fail = true;
+						System.out.println("Start: " + start);
+						System.out.println("End: " + end);
+						System.out.println("Current: " + current);
+					}
+					if (r.hasNext()) {
+						current = r.next();
+					}
+				} else {
+					if (r.hasNext()) {
+						current = r.next();
+					}
+				}
+			}
+		}
+
+		methodMessage("nextTester", fail);
 		return fail;
 	}
 
