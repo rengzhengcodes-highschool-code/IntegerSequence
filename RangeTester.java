@@ -1,9 +1,11 @@
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 public class RangeTester {
 
 	public static void main(String[] args) {
 		boolean failure = false;
 		failure = failure || constructorTester(1000);
+		failure = failure || lengthTester(1000);
 		failure = failure || hasNextTester(1000);
 		failure = failure || nextTester(1000);
 
@@ -16,7 +18,7 @@ public class RangeTester {
 	}
 
 	private static void tester(String test) {
-		System.out.println("\n ~~~ " + test + "~~~\n");
+		System.out.println("\n ~~~ " + test + " ~~~\n");
 	}
 
 	private static int randInt(int end) {
@@ -80,6 +82,14 @@ public class RangeTester {
 
 		}
 
+		try {
+			IntegerSequence r1 = new Range(1, 0);
+			fail = true;
+			System.out.println("If end < start and it creates the range, you're not in spec!");
+		} catch (Exception e) {
+			//System.out.println("Easy test, right?");
+		}
+
 		methodMessage(method, fail);
 		return fail;
 	}
@@ -98,9 +108,13 @@ public class RangeTester {
 			}
 
 			if (equivalent.size() == r.length()) {
-				passMessage(test);
+				//passMessage(test);
 			} else {
-				System.out.println();
+				fail = true;
+				System.out.println("Start: " + start);
+				System.out.println("End: " + end);
+				System.out.println("Expected: " + equivalent.size());
+				System.out.println("Actual: " + r.length());
 			}
 		}
 
@@ -136,6 +150,18 @@ public class RangeTester {
 					System.out.println("End: " + end);
 					System.out.println("Current: " + current);
 				}
+			}
+
+			if (r.hasNext()) {
+				fail = true;
+				System.out.println("Start: " + start);
+				System.out.println("End: " + end);
+				System.out.println("Current: " + current);
+			} else {
+				/*passMessage(test);
+				System.out.println("Start: " + start);
+				System.out.println("End: " + end);
+				System.out.println("Current: " + current);*/
 			}
 		}
 
@@ -178,6 +204,20 @@ public class RangeTester {
 					}
 				}
 			}
+
+			try {
+				current = r.next();
+				fail = true;
+				System.out.println("Start: " + start);
+				System.out.println("End: " + end);
+				System.out.println("Current: " + current);
+			} catch (NoSuchElementException e) {
+				/*passMessage(test);
+				System.out.println("Start: " + start);
+				System.out.println("End: " + end);
+				System.out.println("Current: " + current);*/
+			}
+
 		}
 
 		methodMessage("nextTester", fail);
