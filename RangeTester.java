@@ -1,8 +1,10 @@
+import java.util.ArrayList;
 public class RangeTester {
 
 	public static void main(String[] args) {
 		boolean failure = false;
 		failure = failure || constructorTester(1000);
+		failure = failure || hasNextTester(1000);
 
 		System.out.println("\n ~~~ Overall Result ~~~");
 		if (failure) {
@@ -17,11 +19,11 @@ public class RangeTester {
 	}
 
 	private static int randInt(int end) {
-		return (int)(Math.random() * end);
+		return randInt(0, end);
 	}
 
 	private static int randInt(int start, int end) {
-		return (int)(Math.random()* (start - end)) + start;
+		return (int)(Math.random()* (end - start)) + start;
 	}
 
 	private static void passMessage(int testCase) {
@@ -82,28 +84,44 @@ public class RangeTester {
 	}
 
 	public static boolean hasNextTester(int tests) {
-		tester("lengthTester");
+		tester("hasNextTester");
 		boolean fail = false;
+		for (int test = 0; test < tests; test++) {
+			int start = randInt(-100, 100);
+			int end = start + randInt(10);
+			Range r = new Range(start, end);
+			ArrayList<Integer> equivalent = new ArrayList<Integer>();
 
-		int start = randInt(-100, 100);
-		int end = start + randInt(10);
-		Range r = new Range(start, end);
-		int[] equivalent = new int[end - start + 1];
+			for (int n = start; n <= end; n++) {
+				equivalent.add(n);
+			}
 
-		for (int n = start; n <= end; n++) {
-			equivalent[n - start] = n;
-		}
-
-		for (int n : equivalent) {
-			if (n != equivalent[end - start /* last digit of equivalent*/]) {
-				if (r.hasNext()) {
-					passMessage(n);
+			for (int n : equivalent) {
+				int current = n;
+				if (n != equivalent.get(equivalent.size() - 1)) {
+					if (r.hasNext()) {
+						current = r.next();
+						//passMessage(test);
+					} else {
+						fail = true;
+						System.out.println("Start: " + start);
+						System.out.println("End: " + end);
+						System.out.println("Current: " + current);
+					}
 				} else {
-					System.out.println();
+					if (!r.hasNext()) {
+						//passMessage(test);
+					} else {
+						fail = true;
+						System.out.println("Start: " + start);
+						System.out.println("End: " + end);
+						System.out.println("Current: " + current);
+					}
 				}
 			}
 		}
-
+		methodMessage("hasNextTester", fail);
 		return fail;
 	}
+
 }
