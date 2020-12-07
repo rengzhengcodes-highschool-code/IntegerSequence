@@ -8,6 +8,7 @@ public class RangeTester {
 		failure = failure || lengthTester(1000);
 		failure = failure || hasNextTester(1000);
 		failure = failure || nextTester(1000);
+		failure = failure || resetTester(1000);
 
 		System.out.println("\n ~~~ Overall Result ~~~");
 		if (failure) {
@@ -221,6 +222,40 @@ public class RangeTester {
 		}
 
 		methodMessage("nextTester", fail);
+		return fail;
+	}
+
+	public static boolean resetTester(int tests) {
+		tester("resetTester");
+		boolean fail = false;
+
+		for (int test = 0; test < tests; test++) {
+			ArrayList<Integer> x = new ArrayList<Integer>();
+			ArrayList<Integer> y = new ArrayList<Integer>();
+			int start = randInt(-100, 100);
+			int end = start + randInt(10);
+			Range r = new Range(start, end);
+
+			while (r.hasNext()) {
+				x.add(r.next());
+			}
+			r.reset();
+			while(r.hasNext()) {
+				y.add(r.next());
+			}
+
+			if (x.equals(y)) {
+				//passMessage(test);
+			} else {
+				fail = true;
+				System.out.println("Original Case: " + x.toString());
+				System.out.println("Reset case: " + y.toString());
+				System.out.println("Start: " + start);
+				System.out.println("End: " + end);
+			}
+		}
+
+		methodMessage("resetTester", fail);
 		return fail;
 	}
 
