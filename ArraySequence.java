@@ -8,6 +8,19 @@ public class ArraySequence implements IntegerSequence {
 		this.data = other.clone();
 	}
 
+	public ArraySequence(IntegerSequence otherseq) {
+		otherseq.reset();
+		this.data = new int[otherseq.length()];
+
+		int index = 0;
+
+		while (otherseq.hasNext()) {
+			this.data[index] = otherseq.next();
+		}
+
+		otherseq.reset();
+	}
+
 	public void reset() {
 		this.currentIndex = 0;
 	}
