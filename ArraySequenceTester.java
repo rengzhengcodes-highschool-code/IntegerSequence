@@ -7,6 +7,7 @@ public class ArraySequenceTester {
 
 		failure = failure || arrayConstructorTester(1000);
 		failure = failure || lengthTester(1000);
+		failure = failure || hasNextTester(1000);
 
 		System.out.println("\n ~~~ Overall Result ~~~");
 		if (failure) {
@@ -110,6 +111,46 @@ public class ArraySequenceTester {
 		}
 
 		methodMessage("lengthTester", fail);
+		return fail;
+	}
+
+	public static boolean hasNextTester(int tests) {
+		tester("hasNextTester");
+		boolean fail = false;
+
+		for (int test = 0; test < tests; test++) {
+			int rangeLen = randInt(20);
+			int[] arr = new int[rangeLen];
+
+			for (int index = 0; index < rangeLen; index++) {
+				arr[index] = randInt(-100, 100);
+			}
+
+			ArraySequence arrSeq = new ArraySequence(arr);
+			// arrSeq should have the same number of elements as arr, so we're going through every value of arr to test hasNext because as long as arr has values.
+			int index = 0;
+			for (int n : arr) {
+				if (arrSeq.hasNext()) {
+					// passMessage(test);
+					arrSeq.next();
+					index++;
+				} else {
+					fail = true;
+					System.out.println("Expected hasNext, currentIndex: " + index);
+					System.out.println("length: " + arrSeq.length());
+				}
+			}
+			// tests for endValue hasNext(). It should not
+			if (arrSeq.hasNext()) {
+				fail = true;
+				System.out.println("Expected no hasNext, currentIndex: " + index);
+				System.out.println("length: " + arrSeq.length());
+			} else {
+				// passMessage(index + 1);
+			}
+		}
+
+		methodMessage("hasNextTester", fail);
 		return fail;
 	}
 
