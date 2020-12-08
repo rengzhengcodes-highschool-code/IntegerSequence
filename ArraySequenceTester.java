@@ -10,6 +10,7 @@ public class ArraySequenceTester {
 		failure = failure || lengthTester(1000);
 		failure = failure || hasNextTester(1000);
 		failure = failure || resetTester(1000);
+		failure = failure || integerSequenceConstructor(1000);
 
 		System.out.println("\n ~~~ Overall Result ~~~");
 		if (failure) {
@@ -271,4 +272,39 @@ public class ArraySequenceTester {
 		return fail;
 	}
 
+	public static boolean integerSequenceConstructor(int tests) {
+		tester("integerSequenceConstructor");
+		System.out.println("This test assumes your range function is working properly.");
+		boolean fail = false;
+
+		for (int test = 0; test < tests; test++) {
+			int start = randInt(-100, 100);
+			int end = start + randInt(10);
+			Range r = new Range(start, end);
+			ArraySequence arrSeq = new ArraySequence(r);
+
+			while (r.hasNext()) {
+				int rNext = r.next();
+				int arrNext = arrSeq.next();
+				if (rNext == arrNext) {
+					passMessage(test);;
+				} else {
+					fail = true;
+					System.out.println("Expected: " + rNext);
+					System.out.println("Returned: " + arrNext);
+				}
+			}
+
+			if (r.hasNext() != arrSeq.hasNext()) {
+				fail = true;
+				System.out.println("Range next has no value but arrSeq does. This should not happen, we're at the end of the sequence.");
+			} else {
+				passMessage(test);
+			}
+
+		}
+
+		methodMessage("integerSequenceConstructor", fail);
+		return fail;
+	}
 }
