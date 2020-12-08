@@ -6,6 +6,7 @@ public class ArraySequenceTester {
 		boolean failure = false;
 
 		failure = failure || arrayConstructorTester(1000);
+		failure = nextTester(1000) || failure;
 		failure = failure || lengthTester(1000);
 		failure = failure || hasNextTester(1000);
 
@@ -47,6 +48,7 @@ public class ArraySequenceTester {
 
 	public static boolean arrayConstructorTester(int tests) {
 		tester("arrayConstructorTester");
+		System.out.println("This implicity relies on the functionality of the next() function. If this fails, it may be a next() issue. Check the next() test below to verify.");
 		boolean fail = false;
 
 		for (int test = 0; test < tests; test++) {
@@ -84,6 +86,49 @@ public class ArraySequenceTester {
 		}
 
 		methodMessage("arrayConstructorTester", fail);
+		return fail;
+	}
+
+	public static boolean nextTester(int tests) {
+		tester("nextTester");
+		boolean fail = false;
+
+		for (int test = 0; test < tests; test++) {
+			int rangeLen = randInt(20);
+			int[] arr = new int[rangeLen];
+
+			for (int index = 0; index < rangeLen; index++) {
+				arr[index] = randInt(-100, 100);
+			}
+
+			ArraySequence arrSeq = new ArraySequence(arr);
+
+			for (int n : arr) {
+				int val = arrSeq.next();
+				if (n == val) {
+					//passMessage(test);
+				} else {
+					fail = true;
+					System.out.println("Expected: " + n);
+					System.out.println("Received: " + val);
+				}
+			}
+
+			try {
+				int val = arrSeq.next();
+				fail = true;
+				System.out.println("No value should be here. Received: " + val);
+			} catch (NoSuchElementException e) {
+				//passMessage(e.toString());
+			} catch (Exception e) {
+				fail = true;
+				System.out.println("You should be throwing a NoSuchElementException. Instead we got: ");
+				e.printStackTrace();
+			}
+
+		}
+
+		methodMessage("nextTester", fail);
 		return fail;
 	}
 
