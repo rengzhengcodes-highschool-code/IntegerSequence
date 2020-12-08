@@ -9,6 +9,7 @@ public class ArraySequenceTester {
 		failure = nextTester(1000) || failure;
 		failure = failure || lengthTester(1000);
 		failure = failure || hasNextTester(1000);
+		failure = failure || resetTester(1000);
 
 		System.out.println("\n ~~~ Overall Result ~~~");
 		if (failure) {
@@ -196,6 +197,77 @@ public class ArraySequenceTester {
 		}
 
 		methodMessage("hasNextTester", fail);
+		return fail;
+	}
+
+	public static boolean resetTester(int tests) {
+		tester("resetTester");
+		boolean fail = false;
+
+		for (int test = 0; test < tests; test++) {
+			int rangeLen = randInt(20);
+			int[] arr = new int[rangeLen];
+
+			for (int index = 0; index < rangeLen; index++) {
+				arr[index] = randInt(-100, 100);
+			}
+
+			ArraySequence arrSeq = new ArraySequence(arr);
+
+			for (int n : arr) {
+				int val = arrSeq.next();
+				if (n == val) {
+					//passMessage(test);
+				} else {
+					fail = true;
+					System.out.println("Expected: " + n);
+					System.out.println("Received: " + val);
+				}
+			}
+
+			try {
+				int val = arrSeq.next();
+				fail = true;
+				System.out.println("No value should be here. Received: " + val);
+			} catch (NoSuchElementException e) {
+				//passMessage(e.toString());
+			} catch (Exception e) {
+				fail = true;
+				System.out.println("You should be throwing a NoSuchElementException. Instead we got: ");
+				e.printStackTrace();
+			}
+
+			arrSeq.reset();
+
+			for (int n : arr) {
+				int val = arrSeq.next();
+				if (n == val) {
+					//passMessage(test);
+				} else {
+					fail = true;
+					System.out.println("Reset test failure.");
+					System.out.println("Expected: " + n);
+					System.out.println("Received: " + val);
+				}
+			}
+
+			try {
+				int val = arrSeq.next();
+				fail = true;
+				System.out.println("Reset test failure.");
+				System.out.println("No value should be here. Received: " + val);
+			} catch (NoSuchElementException e) {
+				//passMessage(e.toString());
+			} catch (Exception e) {
+				fail = true;
+				System.out.println("Reset test failure.");
+				System.out.println("You should be throwing a NoSuchElementException. Instead we got: ");
+				e.printStackTrace();
+			}
+
+		}
+
+		methodMessage("resetTester", fail);
 		return fail;
 	}
 
