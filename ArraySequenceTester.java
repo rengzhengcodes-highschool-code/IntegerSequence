@@ -287,7 +287,7 @@ public class ArraySequenceTester {
 				int rNext = r.next();
 				int arrNext = arrSeq.next();
 				if (rNext == arrNext) {
-					passMessage(test);;
+					//passMessage(test);;
 				} else {
 					fail = true;
 					System.out.println("Expected: " + rNext);
@@ -299,7 +299,7 @@ public class ArraySequenceTester {
 				fail = true;
 				System.out.println("Range next has no value but arrSeq does. This should not happen, we're at the end of the sequence.");
 			} else {
-				passMessage(test);
+				//passMessage(test);
 			}
 
 		}
