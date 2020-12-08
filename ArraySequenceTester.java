@@ -6,6 +6,7 @@ public class ArraySequenceTester {
 		boolean failure = false;
 
 		failure = failure || arrayConstructorTester(1000);
+		failure = failure || lengthTester(1000);
 
 		System.out.println("\n ~~~ Overall Result ~~~");
 		if (failure) {
@@ -82,6 +83,33 @@ public class ArraySequenceTester {
 		}
 
 		methodMessage("arrayConstructorTester", fail);
+		return fail;
+	}
+
+	public static boolean lengthTester(int tests) {
+		tester("lengthTester");
+		boolean fail = false;
+
+		for (int test = 0; test < tests; test++) {
+			int rangeLen = randInt(20);
+			int[] arr = new int[rangeLen];
+
+			for (int index = 0; index < rangeLen; index++) {
+				arr[index] = randInt(-100, 100);
+			}
+
+			ArraySequence arrSeq = new ArraySequence(arr);
+
+			if (arrSeq.length() == rangeLen) {
+				//passMessage(test);
+			} else {
+				fail = true;
+				System.out.println("Expected: " + rangeLen);
+				System.out.println("Returned: " + arrSeq.length());
+			}
+		}
+
+		methodMessage("lengthTester", fail);
 		return fail;
 	}
 
